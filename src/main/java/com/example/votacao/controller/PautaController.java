@@ -18,8 +18,16 @@ import com.example.votacao.model.Pauta;
 import com.example.votacao.repository.PautaRepository;
 import com.example.votacao.service.PautaService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
+@Tag(name = "Pauta", description = "API para manutenção de pautas")
 @RestController
 @RequestMapping("v1/pauta")
 public class PautaController {
@@ -29,17 +37,35 @@ public class PautaController {
 	
 	@Autowired
 	private PautaService pautaService;
-
+	
+	@Operation(summary = "Retorna todas as pautas cadastradas",
+		       description = "Retorna uma lista de todas as pautas cadastradas")
+	@ApiResponses({
+		@ApiResponse(responseCode = "200", content = { @Content(array = @ArraySchema(schema = @Schema(implementation = Pauta.class)), mediaType = "application/json") }),
+		@ApiResponse(responseCode = "400", content = { @Content(schema = @Schema()) })
+				  })
 	@GetMapping
 	public List<Pauta> getAll() {
 		return pautas.findAll();
 	}
 	
+	@Operation(summary = "Inclusão de pauta",
+		       description = "Inclusão de pauta")
+	@ApiResponses({
+		@ApiResponse(responseCode = "200", content = { @Content(schema = @Schema(implementation = Pauta.class), mediaType = "application/json") }),
+		@ApiResponse(responseCode = "400", content = { @Content(schema = @Schema()) })
+				  })
 	@PostMapping
 	public Pauta adicionar(@RequestBody @Valid Pauta pauta) {
 		return pautaService.incluir(pauta);
 	}
 	
+	@Operation(summary = "Alteração de pauta",
+		       description = "Alteração de pauta")
+	@ApiResponses({
+		@ApiResponse(responseCode = "200", content = { @Content(schema = @Schema(implementation = Pauta.class), mediaType = "application/json") }),
+		@ApiResponse(responseCode = "400", content = { @Content(schema = @Schema()) })
+				  })
 	@PutMapping(value = "/{id}")
 	public ResponseEntity alterar(@PathVariable Long id, @RequestBody @Valid Pauta pauta) {
 		try {
@@ -50,6 +76,12 @@ public class PautaController {
 		}
 	}
 	
+	@Operation(summary = "Exclusão de pauta",
+		       description = "Exclusão de pauta")
+	@ApiResponses({
+		@ApiResponse(responseCode = "200", content = { @Content(schema = @Schema()) }),
+		@ApiResponse(responseCode = "400", content = { @Content(schema = @Schema()) })
+				  })
 	@DeleteMapping(value = "/{id}")
 	public void deletar(@PathVariable Long id) {
 		pautaService.deletar(id);
