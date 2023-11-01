@@ -3,6 +3,7 @@ package com.example.votacao.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.votacao.ValidacaoException;
+import com.example.votacao.exception.ValidacaoException;
 import com.example.votacao.model.Pauta;
 import com.example.votacao.repository.PautaRepository;
 import com.example.votacao.service.PautaService;
@@ -41,7 +42,7 @@ public class PautaController {
 	@Operation(summary = "Retorna todas as pautas cadastradas",
 		       description = "Retorna uma lista de todas as pautas cadastradas")
 	@ApiResponses({
-		@ApiResponse(responseCode = "200", content = { @Content(array = @ArraySchema(schema = @Schema(implementation = Pauta.class)), mediaType = "application/json") }),
+		@ApiResponse(responseCode = "200", content = { @Content(array = @ArraySchema(schema = @Schema(implementation = Pauta.class)), mediaType = MediaType.APPLICATION_JSON_VALUE) }),
 		@ApiResponse(responseCode = "400", content = { @Content(schema = @Schema()) })
 				  })
 	@GetMapping
@@ -52,7 +53,7 @@ public class PautaController {
 	@Operation(summary = "Inclusão de pauta",
 		       description = "Inclusão de pauta")
 	@ApiResponses({
-		@ApiResponse(responseCode = "200", content = { @Content(schema = @Schema(implementation = Pauta.class), mediaType = "application/json") }),
+		@ApiResponse(responseCode = "200", content = { @Content(schema = @Schema(implementation = Pauta.class), mediaType = MediaType.APPLICATION_JSON_VALUE) }),
 		@ApiResponse(responseCode = "400", content = { @Content(schema = @Schema()) })
 				  })
 	@PostMapping
@@ -63,17 +64,12 @@ public class PautaController {
 	@Operation(summary = "Alteração de pauta",
 		       description = "Alteração de pauta")
 	@ApiResponses({
-		@ApiResponse(responseCode = "200", content = { @Content(schema = @Schema(implementation = Pauta.class), mediaType = "application/json") }),
+		@ApiResponse(responseCode = "200", content = { @Content(schema = @Schema(implementation = Pauta.class), mediaType = MediaType.APPLICATION_JSON_VALUE) }),
 		@ApiResponse(responseCode = "400", content = { @Content(schema = @Schema()) })
 				  })
 	@PutMapping(value = "/{id}")
-	public ResponseEntity alterar(@PathVariable Long id, @RequestBody @Valid Pauta pauta) {
-		try {
-			return ResponseEntity.ok(pautaService.alterar(pauta, id));
-		} catch (ValidacaoException e) {
-
-			return ResponseEntity.badRequest().body(e.getMessage());
-		}
+	public Pauta alterar(@PathVariable Long id, @RequestBody @Valid Pauta pauta) throws ValidacaoException {
+		return pautaService.alterar(pauta, id);
 	}
 	
 	@Operation(summary = "Exclusão de pauta",

@@ -1,4 +1,4 @@
-package com.example.votacao;
+package com.example.votacao.exception;
 
 public class ValidacaoException extends Exception { 
     /**

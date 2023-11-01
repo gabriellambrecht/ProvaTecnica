@@ -5,7 +5,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.votacao.ValidacaoException;
+import com.example.votacao.exception.ValidacaoException;
 import com.example.votacao.model.Pauta;
 import com.example.votacao.repository.PautaRepository;
 
@@ -32,10 +32,7 @@ public class PautaService {
 	
 	public Pauta getPauta(Long idPauta) throws ValidacaoException {
 		Optional<Pauta> pautaOptional = pautaRepository.findById(idPauta);
-		if (pautaOptional.isEmpty()) {
-			throw new ValidacaoException("Pauta não encontrada");
-		}
-		return pautaOptional.get();
+		return pautaOptional.orElseThrow(() -> new ValidacaoException("Pauta não encontrada"));
 	}
 
 }

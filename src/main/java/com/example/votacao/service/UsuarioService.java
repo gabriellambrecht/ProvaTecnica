@@ -5,7 +5,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.votacao.ValidacaoException;
+import com.example.votacao.exception.ValidacaoException;
 import com.example.votacao.model.Pauta;
 import com.example.votacao.model.Usuario;
 import com.example.votacao.repository.UsuarioRepository;
@@ -33,10 +33,7 @@ public class UsuarioService {
 	
 	public Usuario getUsuario(Long idUsuario) throws ValidacaoException {
 		Optional<Usuario> usuarioOptional = usuarioRepository.findById(idUsuario);
-		if (usuarioOptional.isEmpty()) {
-			throw new ValidacaoException("Usuário não encontrado");
-		}
-		return usuarioOptional.get();
+		return usuarioOptional.orElseThrow(() -> new ValidacaoException("Usuário não encontrado"));
 	}
 
 }

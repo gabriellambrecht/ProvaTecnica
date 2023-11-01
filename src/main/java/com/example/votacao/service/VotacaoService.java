@@ -6,10 +6,10 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.votacao.ValidacaoException;
 import com.example.votacao.dto.request.AberturaVotacaoRequest;
 import com.example.votacao.dto.request.RegistroVotacaoRequest;
 import com.example.votacao.dto.response.ResultadoResponse;
+import com.example.votacao.exception.ValidacaoException;
 import com.example.votacao.model.Pauta;
 import com.example.votacao.model.Usuario;
 import com.example.votacao.model.Votacao;
@@ -89,21 +89,18 @@ public class VotacaoService {
 		votacaoRepository.save(votacao);	
 	}
 	
-	public boolean verificaExistenciaVotoUsuario(Votacao votacao, Long idUsuario) {
+	private boolean verificaExistenciaVotoUsuario(Votacao votacao, Long idUsuario) {
 		return votacao.getVotos()
 				.stream()
-				.anyMatch(voto -> voto.getUsuario().getId() == idUsuario);
+				.anyMatch(voto -> voto.getUsuario().getId().equals(idUsuario));
 	}
 	
-	public boolean isVotacaoEncerrada(Votacao votacao) {
+	private boolean isVotacaoEncerrada(Votacao votacao) {
 		return LocalDateTime.now().isAfter(votacao.getDateFinal());
 	}
 	
-	public Votacao getVotacao(Pauta pauta) throws ValidacaoException {
+	private Votacao getVotacao(Pauta pauta) throws ValidacaoException {
 		Optional<Votacao> votacaoOptional = votacaoRepository.findByPauta(pauta);
-		if (votacaoOptional.isEmpty()) {
-			throw new ValidacaoException("Pauta não encontrada");
-		}
-		return votacaoOptional.get();
+		return votacaoOptional.orElseThrow(() -> new ValidacaoException("Pauta não encontrada"));
 	}
 }
