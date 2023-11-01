@@ -1,5 +1,10 @@
 Prova técnica
 
-Possivelmente será necessário mudar o usuário e a senha do banco mysql no arquivo com.example.votacao.DataSourceConfig.java
-
-A documentação da API oi feita usando swagger e pode ser acessada em http://localhost:8080/swagger-ui/index.html
+Para testar o projeto:
+- Ajustar o usuário e a senha do banco mysql no arquivo aplication.properties
+- Executar o projeto
+- Acessar a documentação da API em http://localhost:8080/swagger-ui/index.html
+- Cadastrar um usuário e uma pauta
+- Iniciar a votação da pauta cadastrada
+- Adicionar um voto na pauta
+- Solicitar o resultado da votação
