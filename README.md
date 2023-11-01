@@ -8,3 +8,5 @@ Para testar o projeto:
 - Iniciar a votação da pauta cadastrada
 - Adicionar um voto na pauta
 - Solicitar o resultado da votação
+
+Ao testar o link https://user-info.herokuapp.com/users/{cpf} para fazer o bonus 1 a API aparentemente estava fora do ar, por isso achei melhor não implementar.
