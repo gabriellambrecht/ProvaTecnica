@@ -1,11 +1,5 @@
 package com.example.votacao.service;
 
-import java.time.LocalDateTime;
-import java.util.Optional;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.example.votacao.dto.request.AberturaVotacaoRequest;
 import com.example.votacao.dto.request.RegistroVotacaoRequest;
 import com.example.votacao.dto.response.ResultadoResponse;
@@ -14,9 +8,12 @@ import com.example.votacao.model.Pauta;
 import com.example.votacao.model.Usuario;
 import com.example.votacao.model.Votacao;
 import com.example.votacao.model.Voto;
-import com.example.votacao.repository.PautaRepository;
-import com.example.votacao.repository.UsuarioRepository;
 import com.example.votacao.repository.VotacaoRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Service
 public class VotacaoService {
@@ -35,7 +32,7 @@ public class VotacaoService {
 		Pauta pauta = pautaService.getPauta(abertura.getIdPauta());
 
 		Optional<Votacao> votacaoOptional = votacaoRepository.findByPauta(pauta);
-		if (!votacaoOptional.isEmpty()) {
+		if (votacaoOptional.isPresent()) {
 			throw new ValidacaoException("Votacão da pauta já foi iniciada");
 		}
 		
@@ -44,7 +41,7 @@ public class VotacaoService {
 		if (abertura.getDuracao() != null) {
 			votacao.setDuracaoMinutos(abertura.getDuracao());
 		} else {
-			votacao.setDuracaoMinutos(Long.valueOf(1));
+			votacao.setDuracaoMinutos(1L);
 		}
 		votacao.setPauta(pauta);
 		
@@ -55,8 +52,8 @@ public class VotacaoService {
 		Pauta pauta = pautaService.getPauta(idPauta);
 		Votacao votacao = getVotacao(pauta);
 		
-		long qtdSim = votacao.getVotos().stream().filter(voto -> voto.isSim()).count();
-		long qtdNao = votacao.getVotos().stream().filter(voto -> voto.isNao()).count();
+		long qtdSim = votacao.getVotos().stream().filter(Voto::isSim).count();
+		long qtdNao = votacao.getVotos().stream().filter(Voto::isNao).count();
 		
 		ResultadoResponse resultado = new ResultadoResponse();
 		resultado.setPauta(pauta);

@@ -1,13 +1,12 @@
 package com.example.votacao.service;
 
-import java.util.Optional;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.example.votacao.exception.ValidacaoException;
 import com.example.votacao.model.Pauta;
 import com.example.votacao.repository.PautaRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class PautaService {

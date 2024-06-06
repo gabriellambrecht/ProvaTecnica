@@ -1,17 +1,14 @@
 package com.example.votacao.model;
 
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.Objects;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
-
 @Entity
+@Getter
+@Setter
 @Table(name = "voto")
 public class Voto {
 	
@@ -30,40 +27,12 @@ public class Voto {
     @Column
 	private boolean voto;
 
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public Votacao getVotacao() {
-		return votacao;
-	}
-
-	public void setVotacao(Votacao votacao) {
-		this.votacao = votacao;
-	}
-
-	public Usuario getUsuario() {
-		return usuario;
-	}
-
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
-	}
-
 	public boolean isSim() {
 		return voto;
 	}
 
 	public boolean isNao() {
 		return !voto;
-	}
-
-	public void setVoto(boolean voto) {
-		this.voto = voto;
 	}
 
 	@Override

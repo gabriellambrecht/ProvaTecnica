@@ -1,23 +1,18 @@
 package com.example.votacao.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
-
 @Entity
+@Getter
+@Setter
 @Table(name = "votacao")
 public class Votacao {
 	
@@ -39,44 +34,8 @@ public class Votacao {
 	@OneToMany(mappedBy = "votacao", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Voto> votos;
 
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public Long getDuracaoMinutos() {
-		return duracaoMinutos;
-	}
-
-	public void setDuracaoMinutos(Long duracaoMinutos) {
-		this.duracaoMinutos = duracaoMinutos;
-	}
-
-	public LocalDateTime getDataInicio() {
-		return dataInicio;
-	}
-
-	public void setDataInicio(LocalDateTime dataInicio) {
-		this.dataInicio = dataInicio;
-	}
-
-	public List<Voto> getVotos() {
-		return votos;
-	}
-
-	public void setVotos(List<Voto> votos) {
-		this.votos = votos;
-	}
-	
-	public Pauta getPauta() {
-		return pauta;
-	}
-
-	public void setPauta(Pauta pauta) {
-		this.pauta = pauta;
+	public Votacao() {
+		votos = new ArrayList<>();
 	}
 
 	public LocalDateTime getDateFinal() {
